@@ -1,0 +1,5 @@
+email,password,uuid,first_name,last_name,hiv_status,diagnosis_date,art_status,art_start_date,
+admin@lpmt.com,admin
+moj@lmpt.com,$1$24uuid$2wSZssmN4COav2Z.zQUr90,UUID001,wed,wfw,rwr,wr,wr,wr,wrfw,gw
+moj@lmpt.com,$1$24uuid$vfjGXhO9.Yly1ufbyS7DP1,UUID002
+
