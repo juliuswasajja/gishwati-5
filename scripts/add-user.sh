@@ -18,4 +18,4 @@ generate_uuid() {
 
 uuid=$(generate_uuid)
 
-printf "$1,password,$uuid\n" >> ../data-store/user-store.txt
+printf "$1,,$uuid\n" >> ../data-store/user-store.txt
