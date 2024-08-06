@@ -11,67 +11,24 @@ public class Patient {
         public String password;
     
     
-        public String getEmail() {
-            return email;
-        }
-        public void setEmail(String email) {
-            this.email = email;
-        }
-        public String getUuid() {
-            return uuid;
-        }
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
-        }
-        public String getPassword() {
-            return password;
-        }
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String completeRegistrationMessage () {
-            System.out.println("To Complete Registration Process, enter your UUID");
-
-            Scanner scanner  = new Scanner( System.in );
-            String patientUuid = scanner.next();
-
-            return patientUuid;
-
-        }
-
-        public String verifyPatientUuid ( String verifyUuid) {
-
-            String verifyPatientUuidCmd [] = {"/bin/bash","../scripts/check-patient-uuid.sh", verifyUuid};
-
-            ProcessBuilder checkPatientUuid = new ProcessBuilder(verifyPatientUuidCmd);
-
-               try {
-            Process process = checkPatientUuid.start();
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-
-            int exitCode = process.waitFor();
-            if (exitCode == 0) {
-                System.out.println(output);
-                // return output.toString(); 
-            } else {
-                System.err.println("Error: Script execution failed.");
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-            return verifyUuid;
-
-        }
-
-
+        // public String getEmail() {
+        //     return email;
+        // }
+        // public void setEmail(String email) {
+        //     this.email = email;
+        // }
+        // public String getUuid() {
+        //     return uuid;
+        // }
+        // public void setUuid(String uuid) {
+        //     this.uuid = uuid;
+        // }
+        // public String getPassword() {
+        //     return password;
+        // }
+        // public void setPassword(String password) {
+        //     this.password = password;
+        // }
 
         public String fetchPatientPassword () {
 
@@ -93,6 +50,7 @@ public class Patient {
 
                 if ( submittedPassword.equals(reSubmittedPassword) ) {
                 System.out.println("Password correct");
+                scanner.close();
 
                 }else {
                     System.out.println("Password incorrect try again");
@@ -122,103 +80,136 @@ public class Patient {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-         
-            // String encryptedPassword ;
-    
-            // return null;
+
         }
 
-        public void completeHealthRegistration (String uuid ) {
+        public void completeRegistration ( ) {
+
+            System.out.println("                                                       ");
+            System.out.println("To Complete Registration Process, enter your UUID");
+            System.out.println("                                                       ");
+
+            Scanner scanner  = new Scanner( System.in );
+            String patientUuid = scanner.next();
+            scanner.close();
+
+            String verifyPatientUuidCmd [] = {"/bin/bash","../scripts/check-patient-uuid.sh", patientUuid};
+
+            ProcessBuilder verifyPatientUuid = new ProcessBuilder(verifyPatientUuidCmd);
+
+            try {
+            
+                Process process = verifyPatientUuid.start();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                StringBuilder output = new StringBuilder();
+
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    output.append(line).append("\n");
+                }
+
+                int exitCode = process.waitFor();
+
+                if (exitCode == 0) {
+                    // System.out.println(output);
+                    System.out.println(output);
+
+                    encryptPassword( patientUuid , fetchPatientPassword());
+
+                    healthDataRegistration(patientUuid);
+
+                } 
+                
+                else {
+                    System.err.println("Error: Script execution failed.");
+                }
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        public void healthDataRegistration ( String patientUuid){
 
             System.out.println("Enter your First Name");
-            System.out.println("----------------------------");
-    
-            Scanner scanner  = new Scanner( System.in );
-            String firstName = scanner.next();
-
-            System.out.println("Enter your Last Name");
-            System.out.println("----------------------------");
-    
-            String lastName = scanner.next();
-
-            System.out.println("Enter your Country");
-            System.out.println("----------------------------");
-    
-            String country = scanner.next();
-
-            System.out.println("Enter your Age");
-            System.out.println("----------------------------");
-    
-            String age = scanner.next();
-
-            System.out.println("Enter your HIV Status");
-            System.out.println("----------------------------");
-    
-            String hivStatus = scanner.next();
-
-            System.out.println("Enter your HIV Diagnosis Date");
-            System.out.println("----------------------------");
-    
-            String disgnosisDate = scanner.next();
-
-            System.out.println("Enter your ART Status");
-            System.out.println("----------------------------");
-    
-            String artStatus = scanner.next();
-
-            System.out.println("Enter your ART start Date");
-            System.out.println("----------------------------");
-    
-            String artStartDate = scanner.next();
-
-            // public void submitHealthRegistration ( String uuid, String firstName, String lastName, String country, String age, String hivStatus, String disgnosisDate, String artStatus, String artStartDate ) {
-                
-                String[] completePatientRegistrationUCmd = {
-                    "/bin/bash", "../scripts/complete-registration.sh",
-                    uuid, firstName, lastName, country, age, hivStatus, disgnosisDate, artStatus, artStartDate };
-
-                    System.out.println( uuid + firstName + lastName + country + age + hivStatus + disgnosisDate + artStatus + artStartDate );
-
-    
-                    ProcessBuilder updateUserProcess = new ProcessBuilder(completePatientRegistrationUCmd);
-                    // Set the working directory to ensure correct paths
+                    System.out.println("----------------------------");
             
-                    try {
-                        Process process = updateUserProcess.start();
+                    Scanner scanner  = new Scanner( System.in );
+                    String firstName = scanner.next();
+        
+                    System.out.println("Enter your Last Name");
+                    System.out.println("----------------------------");
             
-                        // Read the output
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                        StringBuilder output = new StringBuilder();
-                        String line;
-                        while ((line = reader.readLine()) != null) {
-                            output.append(line).append("\n");
-                        }
+                    String lastName = scanner.next();
+        
+                    System.out.println("Enter your Country");
+                    System.out.println("----------------------------");
             
-                        // Read errors
-                        BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-                        StringBuilder errorOutput = new StringBuilder();
-                        while ((line = errorReader.readLine()) != null) {
-                            errorOutput.append(line).append("\n");
-                        }
+                    String country = scanner.next();
+        
+                    System.out.println("Enter your Age");
+                    System.out.println("----------------------------");
             
-                        int exitCode = process.waitFor();
-                        if (exitCode == 0) {
-                            System.out.println("Output: " + output);
-                            System.out.println("User information updated successfully.");
-                        } else {
-                            System.err.println("Error Output: " + errorOutput);
-                            System.err.println("User information update failed.");
-                        }
-                    } catch (IOException | InterruptedException e) {
-                        e.printStackTrace();
-                    }
-    
-    
-                // String registeredData = firstName;
-                
-                //  return null;
+                    String age = scanner.next();
+        
+                    System.out.println("Enter your HIV Status");
+                    System.out.println("----------------------------");
+            
+                    String hivStatus = scanner.next();
+        
+                    System.out.println("Enter your HIV Diagnosis Date");
+                    System.out.println("----------------------------");
+            
+                    String disgnosisDate = scanner.next();
+        
+                    System.out.println("Enter your ART Status");
+                    System.out.println("----------------------------");
+            
+                    String artStatus = scanner.next();
+        
+                    System.out.println("Enter your ART start Date");
+                    System.out.println("----------------------------");
+            
+                    String artStartDate = scanner.next();
+                    scanner.close();
+                                
+                        String[] completeRegistrationCmd = {
+                            "/bin/bash", "../scripts/complete-registration.sh",
+                            patientUuid, firstName, lastName, country, age, hivStatus, disgnosisDate, artStatus, artStartDate };
+        
+                            System.out.println( patientUuid + firstName + lastName + country + age + hivStatus + disgnosisDate + artStatus + artStartDate );
+        
+                            ProcessBuilder completePatientRegistrationProcess = new ProcessBuilder(completeRegistrationCmd);
+                    
+                            try {
+                                Process process = completePatientRegistrationProcess.start();            
 
-
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                                StringBuilder output = new StringBuilder();
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    output.append(line).append("\n");
+                                }
+                    
+                                BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+                                StringBuilder errorOutput = new StringBuilder();
+                                while ((line = errorReader.readLine()) != null) {
+                                    errorOutput.append(line).append("\n");
+                                }
+                    
+                                int exitCode = process.waitFor();
+                                if (exitCode == 0) {
+                                    System.out.println("Output: " + output);
+                                    System.out.println("User information updated successfully.");
+                                } else {
+                                    System.err.println("Error Output: " + errorOutput);
+                                    System.err.println("User information update failed.");
+                                }
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
 
         }
