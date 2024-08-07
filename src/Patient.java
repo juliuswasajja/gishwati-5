@@ -208,6 +208,8 @@ public class Patient {
             e.printStackTrace();
         }
 
+        //calculate the life expectancy
+
     }
 
     public int menu() {
