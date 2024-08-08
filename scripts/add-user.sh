@@ -1,8 +1,9 @@
 # !/bin/bash
 
 if [ ! -f ../data-store/user-store.txt ]; then
-    echo "email,password,uuid,first_name,last_name,hiv_status,diagnosis_date,art_status,art_start_date," > ../data-store/user-store.txt
-    echo "admin@lpmt.com,admin" >> ../data-store/user-store.txt
+    echo "email,password,role,uuid,first_name,last_name,hiv_status,diagnosis_date,art_status,art_start_date,
+" > ../data-store/user-store.txt
+    echo "admin@lpmt.com,"$1$24uuid$P9Gf2tmbmZPmg1JO0JoaK1" >> ../data-store/user-store.txt
 fi
 
 generate_uuid() {
