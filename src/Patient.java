@@ -4,11 +4,47 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class Patient {
+public class Patient extends User {
 
-    public String email;
-    public String uuid;
-    public String password;
+    public String data;
+
+    public void listData ( String data) {
+
+        // System.out.println("what is in the user data " + patientData );
+
+        String[] fields = data.split(",");
+
+        if (fields.length >= 10) { // Ensure that there are enough fields
+            String email = fields[0];
+            String uuid = fields[2];
+            String role = fields[3];
+            String firstName = fields[4];
+            String lastName = fields[5];
+            String hivStatus = fields[6];
+            String diagnosisDate = fields[7];
+            String artStatus = fields[8];
+            String artStartDate = fields[9];
+
+            // Process the user data as needed
+            System.out.println("Email: " + email);
+            System.out.println("UUID: " + uuid);
+            System.out.println("Role: " + role);
+            System.out.println("First Name: " + firstName);
+            System.out.println("Last Name: " + lastName);
+            System.out.println("HIV Status: " + hivStatus);
+            System.out.println("Diagnosis Date: " + diagnosisDate);
+            System.out.println("ART Status: " + artStatus);
+            System.out.println("ART Start Date: " + artStartDate);
+            System.out.println("Role: " + role);
+        } else {
+            System.out.println("Invalid user data.");
+        }
+
+    }
+
+    // public String email;
+    // public String uuid;
+    // public String password;
 
     // public String getEmail() {
     // return email;
@@ -263,6 +299,8 @@ public class Patient {
         switch (selectedOption) {
             case 1: {
                 System.out.println("Here is your profile");
+                listData(data);
+                System.out.println("it works");
             }
                 break;
 

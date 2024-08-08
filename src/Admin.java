@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Admin {
+public class Admin  extends User {
 
     public int menu() {
 

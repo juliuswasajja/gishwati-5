@@ -1,28 +1,64 @@
 // package src;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class User {
     
-    public void logInMessage () {
-        System.out.println("                                                       ");
-        System.out.println("Enter your email Address");
-        System.out.println("                                                       ");
+    public String userData;
 
-    
+    // public void setUserData(String userData) {
+    //     this.userData = logIn ();
+    // }
+
+    public String logIn () {
+
+        System.out.println("Enter your email Address");
 
         Scanner scanner  = new Scanner( System.in );
-        
         String email = scanner.next();
 
-        System.out.println("                                                       ");
         System.out.println("Enter your password");
-        System.out.println("                                                       ");
-
         String password = scanner.next();
 
-        System.out.println("You have successfully logged in");
+        // email = "julius@lpmt.com";
+        // password = "julio";
 
+        String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
+        ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
+
+        try {
+            Process process = authenticateUser.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
+            int exitCode = process.waitFor();
+            if (exitCode == 0) {
+                System.out.println("User authenticated successful.");
+                return userData = output.toString();
+            } else {
+                System.err.println("Authentication failed.");
+                return null;
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public String setRole ( String userData ){
+        String[] fields = userData.split(",");
+
+        String role = fields[3];
+
+        return role;
 
     }
 
