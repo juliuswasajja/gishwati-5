@@ -1,4 +1,6 @@
-email,password,uuid,first_name,last_name,hiv_status,diagnosis_date,art_status,art_start_date,
+email,password,role,uuid,first_name,last_name,hiv_status,diagnosis_date,art_status,art_start_date,
 admin@lpmt.com,admin
 moj@lpmt.com,$1$24uuid$zO4/31StOJTQu92d5xFvn/,UUID001,james,ted,UGD,23,n,0,0,t
-teta@gmail.com,$1$24uuid$qLB.zUweN/vma.csVXo5E1,UUID002
+teta@gmail.com,$1$24uuid$nGOwTmewnyoOkOyczwTup1,UUID002,julio,julio,s,s,s,s,s,s
+julius@lpmt.com,$1$24uuid$P9Gf2tmbmZPmg1JO0JoaK1,UUID003,patient,ewd,wedw,we,we,wew,ew,ewe,wew
+
