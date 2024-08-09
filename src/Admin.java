@@ -108,7 +108,7 @@ public class Admin  extends User {
             
         }
 
-        String addPatientCmd[] = { "/bin/bash", "../scripts/add-user.sh", email };
+        String addPatientCmd[] = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\add-user.sh", email };
 
         ProcessBuilder addUserScript = new ProcessBuilder(addPatientCmd);
 
