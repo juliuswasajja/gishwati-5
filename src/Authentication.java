@@ -4,7 +4,7 @@ public class Authentication {
 
 
 
-        String encryptedPassword;
+        String encryptedPassword = "";
 
         return encryptedPassword;
     }

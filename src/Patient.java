@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class Patient extends User {
 
     public String data;
+    private String email;
 
     public String uuid;
     public String firstName;
@@ -33,17 +34,17 @@ public class Patient extends User {
             artStatus = fields[10];
             artStartDate = fields[11];
 
-            System.out.println("Email: " + email);
-            System.out.println("First Name: " + firstName);
-            System.out.println("Last Name: " + lastName);
-            System.out.println("Date of Birth: " + dateOfBirth);
-            System.out.println("Country: " + country);
-            System.out.println("HIV Status: " + hivStatus);
+            System.out.println("1. Email: " + email);
+            System.out.println("2. First Name: " + firstName);
+            System.out.println("3. Last Name: " + lastName);
+            System.out.println("4. Date of Birth: " + dateOfBirth);
+            System.out.println("5. Country: " + country);
+            System.out.println("6. HIV Status: " + hivStatus);
             if (hivStatus.equals("P")) {
-                System.out.println("Diagnosis Date: " + diagnosisDate);
-                System.out.println("ART Status: " + artStatus);
+                System.out.println("7. Diagnosis Date: " + diagnosisDate);
+                System.out.println("8. ART Status: " + artStatus);
                 if (artStatus.equals("Y")) {
-                    System.out.println("ART Start Date: " + artStartDate);
+                    System.out.println("9. ART Start Date: " + artStartDate);
                 }
             }
         } else {
@@ -61,7 +62,7 @@ public class Patient extends User {
         Scanner scanner = new Scanner(System.in);
         String patientUuid = scanner.next();
 
-        String verifyPatientUuidCmd[] = { "/bin/bash", "../scripts/check-patient-uuid.sh", patientUuid };
+        String verifyPatientUuidCmd[] = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\check-patient-uuid.sh", patientUuid };
 
         ProcessBuilder verifyPatientUuid = new ProcessBuilder(verifyPatientUuidCmd);
 
@@ -132,7 +133,7 @@ public class Patient extends User {
 
     public void encryptPassword(String uuid, String password) {
 
-        String[] encryptPasswordCmd = { "/bin/bash", "../scripts/encrypt-password.sh", uuid, password };
+        String[] encryptPasswordCmd = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\encrypt-password.sh", uuid, password };
 
         ProcessBuilder encryptPatientPassword = new ProcessBuilder(encryptPasswordCmd);
 
@@ -215,7 +216,7 @@ public class Patient extends User {
         }
 
         String[] completeRegistrationCmd = {
-                "/bin/bash", "../scripts/complete-registration.sh",
+                "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\complete-registration.sh",
                 uuid, firstName, lastName, dateOfBirth, country, hivStatus, diagnosisDate, artStatus, artStartDate };
 
         // System.out.println( patientUuid + firstName + lastName + country + age +
@@ -302,7 +303,7 @@ public class Patient extends User {
     }
 
     public void selectOption(int selectedOption) {
-
+        Scanner scanner = new Scanner(System.in);
         switch (selectedOption) {
             case 1: {
                 System.out.println("-------------------------------------------------------");
@@ -311,12 +312,63 @@ public class Patient extends User {
                 viewData(data);
                 System.out.println("-------------------------------------------------------");
             }
-                break;
+            break;
 
             case 2: {
-                System.out.println(" Update Profile");
+                System.out.println("Here is your profile");
+                viewData(data);
+
+
+                System.out.println("Select the field you want to update: ");
+
+                int field = scanner.nextInt();
+                scanner.nextLine(); // consume the newline
+                System.out.println("Field number selected: " + field);
+
+                String fieldName = "";
+                switch (field) {
+                    case 1:
+                        fieldName = "Email";
+                        break;
+//                    case 2: fieldName = "Password"; break;
+                    case 2:
+                        fieldName = "First Name";
+                        break;
+                    case 3:
+                        fieldName = "Last Name";
+                        break;
+                    case 4:
+                        fieldName = "Date of Birth";
+                        break;
+                    case 5:
+                        fieldName = "Country";
+                        break;
+                    case 6:
+                        fieldName = "HIV Status";
+                        break;
+                    case 7:
+                        fieldName = "Diagnosis Date";
+                        break;
+                    case 8:
+                        fieldName = "ART Status";
+                        break;
+                    case 9:
+                        fieldName = "ART Start Date";
+                        break;
+                    default:
+                        System.out.println("Invalid field number.");
+                        return;
+                }
+
+
+                System.out.println("Field name to update: " + fieldName); // Debugging statement
+
+                System.out.println("Enter the new value: ");
+                String newValue = scanner.nextLine();
+
+                updateProfile(email, fieldName, newValue);
             }
-                break;
+            break;
 
             default: {
 
@@ -326,9 +378,49 @@ public class Patient extends User {
                 System.out.println("-------------------------------------------------------");
 
             }
-                break;
+            break;
+        }
+//        private void updateProfileField ( int field, String newValue){
+//            String[] fields = data.split(",");
+//            if (field >= 1 && field <= fields.length) {
+//                fields[field - 1] = newValue; // Adjust for 1-based indexing
+//                data = String.join(",", fields); // Reassemble the data string
+//            } else {
+//                System.out.println("Invalid field selection.");
+//            }
+//        }
+    }
+        private static final String SCRIPT_PATH = "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\update-user-profile.sh"; // Ensure the correct path
+        private static void updateProfile (String email, String fieldName, String newValue) {
+            try {
+                ProcessBuilder processBuilder = new ProcessBuilder(
+                        "C:\\Program Files\\Git\\bin\\bash.exe",
+                        SCRIPT_PATH,
+                        email,
+                        fieldName,
+                        newValue
+                );
+                processBuilder.redirectErrorStream(true);
+                Process process = processBuilder.start();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println(line);
+                }
+
+                int exitCode = process.waitFor();
+                if (exitCode != 0) {
+                    System.out.println("Error: Script exited with code " + exitCode);
+                }
+            } catch (IOException e) {
+                System.err.println("IOException: " + e.getMessage());
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                System.err.println("InterruptedException: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
 
     }
 
-}
