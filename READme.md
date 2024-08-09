@@ -13,3 +13,10 @@ version 1.0.0
 - Basic UI navigation of the application.
 - Connecting Java to bash.
 - Write user data to user-store.txt
+
+version 2.0.0
+- Fixed all week 1 deliverable
+- Users can complete registration by submitting their health data
+- Users can view data
+- Users can edit data.
+- 
