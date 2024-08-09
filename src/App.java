@@ -23,6 +23,9 @@ public class App {
                 if ( (user.setRole(userData)).equals("patient") ) {
                     Patient patient = new Patient();
                     patient.data = userData;
+                    // LifeExpectancyCalculator calculator = new LifeExpectancyCalculator();
+                    // int calculatedLifeSpan = calculator.calculateLifeSpan(1997, 2000, 20, 56);
+                    // System.out.println(calculatedLifeSpan);
                     patient.selectOption(patient.menu());
                 } else if ( (user.setRole(userData)).equals("admin")) {
                     Admin admin = new Admin();

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class CSVReader {
 
-    String path = System.getProperty("user.home") + "\\Downloads\\life-expectancy.csv";
+    String path = System.getProperty("../data-store/life-expectancy.csv");
     private Map<String, String> countryLifeExpectancyMap = new HashMap<>();
 
     // Method to read CSV and populate the map with life expectancy data

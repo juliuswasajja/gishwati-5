@@ -113,7 +113,7 @@ public class Admin  extends User {
             
         }
 
-        String addPatientCmd[] = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\add-user.sh", email };
+        String addPatientCmd[] = { "/bin/bash","../scripts/add-user.sh", email };
 
         ProcessBuilder addUserScript = new ProcessBuilder(addPatientCmd);
 
@@ -177,7 +177,7 @@ public class Admin  extends User {
             System.out.println("Data exported to CSV successfully.");
 
             // Optionally, copy the CSV file to a location for download
-            String downloadPath = "./downloaded_data.csv"; // Update as needed
+            String downloadPath = "../data-store/exported_user_data.csv"; // Update as needed
             Files.copy(Paths.get(csvFilePath), Paths.get(downloadPath), StandardCopyOption.REPLACE_EXISTING);
 
             System.out.println("CSV file is ready for download: " + downloadPath);

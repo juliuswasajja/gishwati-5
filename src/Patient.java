@@ -62,7 +62,7 @@ public class Patient extends User {
         Scanner scanner = new Scanner(System.in);
         String patientUuid = scanner.next();
 
-        String verifyPatientUuidCmd[] = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\check-patient-uuid.sh", patientUuid };
+        String verifyPatientUuidCmd[] = { "/bin/bash", "../scripts/check-patient-uuid.sh", patientUuid };
 
         ProcessBuilder verifyPatientUuid = new ProcessBuilder(verifyPatientUuidCmd);
 
@@ -133,7 +133,7 @@ public class Patient extends User {
 
     public void encryptPassword(String uuid, String password) {
 
-        String[] encryptPasswordCmd = { "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\encrypt-password.sh", uuid, password };
+        String[] encryptPasswordCmd = { "/bin/bash", "../scripts/encrypt-password.sh", uuid, password };
 
         ProcessBuilder encryptPatientPassword = new ProcessBuilder(encryptPasswordCmd);
 
@@ -216,11 +216,8 @@ public class Patient extends User {
         }
 
         String[] completeRegistrationCmd = {
-                "C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\complete-registration.sh",
+                "/bin/bash", "../scripts/complete-registration.sh",
                 uuid, firstName, lastName, dateOfBirth, country, hivStatus, diagnosisDate, artStatus, artStartDate };
-
-        // System.out.println( patientUuid + firstName + lastName + country + age +
-        // hivStatus + disgnosisDate + artStatus + artStartDate );
 
         ProcessBuilder completePatientRegistrationProcess = new ProcessBuilder(completeRegistrationCmd);
 
@@ -367,6 +364,7 @@ public class Patient extends User {
                 String newValue = scanner.nextLine();
 
                 updateProfile(email, fieldName, newValue);
+
             }
             break;
 
@@ -380,21 +378,13 @@ public class Patient extends User {
             }
             break;
         }
-//        private void updateProfileField ( int field, String newValue){
-//            String[] fields = data.split(",");
-//            if (field >= 1 && field <= fields.length) {
-//                fields[field - 1] = newValue; // Adjust for 1-based indexing
-//                data = String.join(",", fields); // Reassemble the data string
-//            } else {
-//                System.out.println("Invalid field selection.");
-//            }
-//        }
+
     }
-        private static final String SCRIPT_PATH = "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\update-user-profile.sh"; // Ensure the correct path
+        private static final String SCRIPT_PATH = "../scripts/update-user-profile.sh"; // Ensure the correct path
         private static void updateProfile (String email, String fieldName, String newValue) {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder(
-                        "C:\\Program Files\\Git\\bin\\bash.exe",
+                        "/bin/bash",
                         SCRIPT_PATH,
                         email,
                         fieldName,
