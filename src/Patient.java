@@ -8,62 +8,49 @@ public class Patient extends User {
 
     public String data;
 
-    public void listData ( String data) {
+    public String uuid;
+    public String firstName;
+    public String lastName;
+    public String dateOfBirth;
+    public String country;
+    public String hivStatus = "0";
+    public String diagnosisDate;
+    public String artStatus = "0";
+    public String artStartDate;
 
-        // System.out.println("what is in the user data " + patientData );
+    public void viewData(String data) {
 
         String[] fields = data.split(",");
 
-        if (fields.length >= 10) { // Ensure that there are enough fields
-            String email = fields[0];
-            String uuid = fields[2];
-            String role = fields[3];
-            String firstName = fields[4];
-            String lastName = fields[5];
-            String hivStatus = fields[6];
-            String diagnosisDate = fields[7];
-            String artStatus = fields[8];
-            String artStartDate = fields[9];
+        if (fields.length >= 5) { // Ensure that there are enough fields
+            email = fields[0];
+            firstName = fields[4];
+            lastName = fields[5];
+            dateOfBirth = fields[6];
+            country = fields[7];
+            hivStatus = fields[8];
+            diagnosisDate = fields[9];
+            artStatus = fields[10];
+            artStartDate = fields[11];
 
-            // Process the user data as needed
             System.out.println("Email: " + email);
-            System.out.println("UUID: " + uuid);
-            System.out.println("Role: " + role);
             System.out.println("First Name: " + firstName);
             System.out.println("Last Name: " + lastName);
+            System.out.println("Date of Birth: " + dateOfBirth);
+            System.out.println("Country: " + country);
             System.out.println("HIV Status: " + hivStatus);
-            System.out.println("Diagnosis Date: " + diagnosisDate);
-            System.out.println("ART Status: " + artStatus);
-            System.out.println("ART Start Date: " + artStartDate);
-            System.out.println("Role: " + role);
+            if (hivStatus.equals("P")) {
+                System.out.println("Diagnosis Date: " + diagnosisDate);
+                System.out.println("ART Status: " + artStatus);
+                if (artStatus.equals("Y")) {
+                    System.out.println("ART Start Date: " + artStartDate);
+                }
+            }
         } else {
             System.out.println("Invalid user data.");
         }
 
     }
-
-    // public String email;
-    // public String uuid;
-    // public String password;
-
-    // public String getEmail() {
-    // return email;
-    // }
-    // public void setEmail(String email) {
-    // this.email = email;
-    // }
-    // public String getUuid() {
-    // return uuid;
-    // }
-    // public void setUuid(String uuid) {
-    // this.uuid = uuid;
-    // }
-    // public String getPassword() {
-    // return password;
-    // }
-    // public void setPassword(String password) {
-    // this.password = password;
-    // }
 
     public void completeRegistration() {
 
@@ -94,7 +81,7 @@ public class Patient extends User {
             int exitCode = process.waitFor();
 
             if (exitCode == 0) {
-                // System.out.println(output);
+
                 System.out.println(output);
 
                 encryptPassword(patientUuid, fetchPatientPassword());
@@ -131,7 +118,7 @@ public class Patient extends User {
             reSubmittedPassword = scanner.next();
 
             if (submittedPassword.equals(reSubmittedPassword)) {
-                System.out.println("Password matches");
+                System.out.println("Passwords match");
 
             } else {
                 System.out.println("Password does not match, please try again");
@@ -143,9 +130,9 @@ public class Patient extends User {
 
     }
 
-    public void encryptPassword(String patientUuid, String userPassword) {
+    public void encryptPassword(String uuid, String password) {
 
-        String[] encryptPasswordCmd = { "/bin/bash", "../scripts/encrypt-password.sh", patientUuid, userPassword };
+        String[] encryptPasswordCmd = { "/bin/bash", "../scripts/encrypt-password.sh", uuid, password };
 
         ProcessBuilder encryptPatientPassword = new ProcessBuilder(encryptPasswordCmd);
 
@@ -154,7 +141,7 @@ public class Patient extends User {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Password encrypted.");
+                System.out.println("Password created successfully.");
             } else {
                 System.err.println("Password encryption failed.");
             }
@@ -164,52 +151,72 @@ public class Patient extends User {
 
     }
 
-    public void healthDataRegistration(String patientUuid) {
+    public void healthDataRegistration(String uuid) {
 
         System.out.println("Enter your First Name");
         System.out.println("----------------------------");
 
         Scanner scanner = new Scanner(System.in);
-        String firstName = scanner.next();
+        firstName = scanner.next();
 
         System.out.println("Enter your Last Name");
         System.out.println("----------------------------");
 
-        String lastName = scanner.next();
+        lastName = scanner.next();
+
+        System.out.println("Enter your Date of Birth");
+        System.out.println("----------------------------");
+
+        dateOfBirth = scanner.next();
 
         System.out.println("Enter your Country");
         System.out.println("----------------------------");
 
-        String country = scanner.next();
+        country = scanner.next();
 
-        System.out.println("Enter your Age");
-        System.out.println("----------------------------");
+        while (!(hivStatus.equals("P"))  && !(hivStatus.equals("N"))) {
 
-        String age = scanner.next();
+            System.out.println("Enter your HIV Status");
+            System.out.println("----------------------------");
 
-        System.out.println("Enter your HIV Status");
-        System.out.println("----------------------------");
+            System.out.println("If Positive, type P\nIf Negative, type N");
+            hivStatus = scanner.next();
 
-        String hivStatus = scanner.next();
+        }
 
-        System.out.println("Enter your HIV Diagnosis Date");
-        System.out.println("----------------------------");
+        if (hivStatus.equals("P")) {
 
-        String disgnosisDate = scanner.next();
+            System.out.println("Enter your HIV Diagnosis Date");
+            System.out.println("----------------------------");
 
-        System.out.println("Enter your ART Status");
-        System.out.println("----------------------------");
+            diagnosisDate = scanner.next();
 
-        String artStatus = scanner.next();
+            while (!(artStatus.equals("Y"))) {
 
-        System.out.println("Enter your ART start Date");
-        System.out.println("----------------------------");
+                System.out.println("Enter your ART Status");
+                System.out.println("----------------------------");
 
-        String artStartDate = scanner.next();
+                System.out.println("If Yes, type Y\nIf No, type N");
+
+
+                artStatus = scanner.next();
+
+            }
+
+            if (artStatus.equals("Y")) {
+
+                System.out.println("Enter your ART start Date");
+                System.out.println("----------------------------");
+
+                artStartDate = scanner.next();
+
+            }
+
+        }
 
         String[] completeRegistrationCmd = {
                 "/bin/bash", "../scripts/complete-registration.sh",
-                patientUuid, firstName, lastName, country, age, hivStatus, disgnosisDate, artStatus, artStartDate };
+                uuid, firstName, lastName, dateOfBirth, country, hivStatus, diagnosisDate, artStatus, artStartDate };
 
         // System.out.println( patientUuid + firstName + lastName + country + age +
         // hivStatus + disgnosisDate + artStatus + artStartDate );
@@ -244,7 +251,7 @@ public class Patient extends User {
             e.printStackTrace();
         }
 
-        //calculate the life expectancy
+        // calculate the life expectancy
 
     }
 
@@ -298,9 +305,11 @@ public class Patient extends User {
 
         switch (selectedOption) {
             case 1: {
-                System.out.println("Here is your profile");
-                listData(data);
-                System.out.println("it works");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("Here is your Health Data");
+                System.out.println("-------------------------------------------------------");
+                viewData(data);
+                System.out.println("-------------------------------------------------------");
             }
                 break;
 

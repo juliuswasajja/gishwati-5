@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Admin  extends User {
@@ -89,24 +91,45 @@ public class Admin  extends User {
         System.out.println("                                                       ");
         System.out.println("Initiating Patient Registration");
         System.out.println("                                                       ");
-        System.out.println("----------------------------");
-        System.out.println("Please enter Patient's Email");
-        System.out.println("                                                       ");
+        System.out.println(email);
+        
+        while ( email == null) {
 
-        Scanner scanner = new Scanner(System.in);
-        String patientEmail = scanner.next();
+            System.out.println("----------------------------");
+            System.out.println("Please enter Patient's Email");
+            System.out.println("                                                       ");
 
-        String addPatientCmd[] = { "/bin/bash", "../scripts/add-user.sh", patientEmail };
+            Scanner scanner = new Scanner(System.in);
+            email = scanner.next();
+
+            if (email == null){
+                System.out.println("Please provide a user email");
+            }
+            
+        }
+
+        String addPatientCmd[] = { "/bin/bash", "../scripts/add-user.sh", email };
 
         ProcessBuilder addUserScript = new ProcessBuilder(addPatientCmd);
 
         try {
             Process process = addUserScript.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
             int exitCode = process.waitFor();
+
             if (exitCode == 0) {
                 System.out.println("                                                       ");
                 System.out.println("-------------------------------------------------------");
                 System.out.println("User added successfully.");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("                   "+ output +"                          ");
                 System.out.println("-------------------------------------------------------");
                 System.out.println("                                                       ");
 

@@ -8,23 +8,24 @@ import java.util.Scanner;
 public class User {
     
     public String userData;
-
-    // public void setUserData(String userData) {
-    //     this.userData = logIn ();
-    // }
+    public String email;
 
     public String logIn () {
 
         System.out.println("Enter your email Address");
-
         Scanner scanner  = new Scanner( System.in );
+
         String email = scanner.next();
 
         System.out.println("Enter your password");
+        
         String password = scanner.next();
 
-        // email = "julius@lpmt.com";
+        // email = "admin@lpmt.com";
         // password = "julio";
+
+        email = "user39595@gmail.com";
+        password = "julio";
 
         String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
         ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
@@ -40,10 +41,11 @@ public class User {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("User authenticated successful.");
+                System.out.println("Authentication successful.");
                 return userData = output.toString();
             } else {
                 System.err.println("Authentication failed.");
+                System.out.println(userData = output.toString());
                 return null;
             }
         } catch (IOException | InterruptedException e) {
@@ -54,9 +56,10 @@ public class User {
     }
 
     public String setRole ( String userData ){
+
         String[] fields = userData.split(",");
 
-        String role = fields[3];
+        String role = fields[2];
 
         return role;
 

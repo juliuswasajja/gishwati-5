@@ -22,17 +22,15 @@ public class App {
 
                 if ( (user.setRole(userData)).equals("patient") ) {
                     Patient patient = new Patient();
-                    // System.out.println("dhcgsc hcw" + userData + "cmu");
                     patient.data = userData;
                     patient.selectOption(patient.menu());
-                    // patient.userData = userData;
                 } else if ( (user.setRole(userData)).equals("admin")) {
                     Admin admin = new Admin();
                     admin.selectOption(admin.menu());
-                    // admin.userData = user.logIn();
-                } else {
-                    System.out.println( "this is the rol ***********"+ user.setRole(userData));
-                    System.out.println("Unknow Role");
+                } 
+                else {
+                    System.out.println("Unknow Role" + user.setRole(userData));
+                    System.out.println(userData);
                     System.exit(0);
                 }
 
