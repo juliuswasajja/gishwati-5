@@ -2,19 +2,16 @@
 
 USER_STORE_PATH="../data-store/user-store.txt"
 
-lpmtuuid=$1
-lpmtuserpassword=$2
+uuid=$1
+userpassword=$2
 
-lpmtencryptedpassword=$(openssl passwd -salt 24uuid ${lpmtuserpassword})
+encryptedpassword=$(openssl passwd -salt 24uuid ${userpassword})
 
-echo "encrypted password: $lpmtencryptedpassword" 
+echo "encrypted password: $encryptedpassword" 
 
 
-escaped_password=$(printf '%s\n' "$lpmtencryptedpassword" | sed 's/[]\/$*.^|[]/\\&/g')
+escaped_password=$(printf '%s\n' "$encryptedpassword" | sed 's/[]\/$*.^|[]/\\&/g')
 
 echo "escaped passowrd: $escaped_password"
 
-sed -i '' "/,$lpmtuuid$/s/[^,]*/${escaped_password}/2" ../data-store/user-store.txt
-
-
-
+sed -i '' "/,$uuid$/s/[^,]*/${escaped_password}/2" ../data-store/user-store.txt
