@@ -1,6 +1,12 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Scanner;
 
 public class Admin  extends User {
@@ -68,6 +74,7 @@ public class Admin  extends User {
 
             case 3: {
                 System.out.println("Export Data feature is coming soon");
+                exportUserData ("../data-store/user-store.txt","../data-store/exported_user_data.csv");
             }
                 break;
 
@@ -83,8 +90,6 @@ public class Admin  extends User {
         }
 
     }
-
-    
 
     public void registerPatientEmail() {
 
@@ -145,6 +150,48 @@ public class Admin  extends User {
             e.printStackTrace();
         }
 
+    }
+
+        public void exportUserData(String userStoreFilePath, String csvFilePath) {
+        BufferedReader reader = null;
+        BufferedWriter writer = null;
+
+        try {
+            // Open the user-store.txt file for reading
+            reader = new BufferedReader(new FileReader(userStoreFilePath));
+
+            // Open the CSV file for writing
+            writer = new BufferedWriter(new FileWriter(csvFilePath));
+
+            // Read the header line and write it to the CSV file
+            String line = reader.readLine();
+            if (line != null) {
+                writer.write(line + "\n");
+            }
+
+            // Read the rest of the file and write to CSV
+            while ((line = reader.readLine()) != null) {
+                writer.write(line + "\n");
+            }
+
+            System.out.println("Data exported to CSV successfully.");
+
+            // Optionally, copy the CSV file to a location for download
+            String downloadPath = "./downloaded_data.csv"; // Update as needed
+            Files.copy(Paths.get(csvFilePath), Paths.get(downloadPath), StandardCopyOption.REPLACE_EXISTING);
+
+            System.out.println("CSV file is ready for download: " + downloadPath);
+
+        } catch (IOException e) {
+            System.err.println("Error occurred while exporting data to CSV: " + e.getMessage());
+        } finally {
+            try {
+                if (reader != null) reader.close();
+                if (writer != null) writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

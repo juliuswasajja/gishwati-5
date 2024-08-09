@@ -21,10 +21,7 @@ public class User {
         
         String password = scanner.next();
 
-        // email = "admin@lpmt.com";
-        // password = "julio";
-
-        email = "user39595@gmail.com";
+        email = "admin@lpmt.com";
         password = "julio";
 
         String[] authenticateCmd = {"C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\authenticate-user.sh", email, password};
