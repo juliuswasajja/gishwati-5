@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USER_STORE_PATH="../data-store/user-store.txt"
+USER_STORE_PATH="C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\data-store\\user-store.txt"
 
 # Check if the UUID exists in the file
 uuid_exists() {

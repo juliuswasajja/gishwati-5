@@ -24,10 +24,7 @@ public class User {
         email = "admin@lpmt.com";
         password = "julio";
 
-        // email = "user39595@gmail.com";
-        // password = "julio";
-
-        String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
+        String[] authenticateCmd = {"C:\\Program Files\\Git\\bin\\bash.exe", "C:\\Users\\STUDENT-11\\IdeaProjects\\gishwati-5\\scripts\\authenticate-user.sh", email, password};
         ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
 
         try {
