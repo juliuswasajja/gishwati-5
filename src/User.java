@@ -21,11 +21,11 @@ public class User {
         
         String password = scanner.next();
 
-        // email = "admin@lpmt.com";
-        // password = "julio";
-
-        email = "user39595@gmail.com";
+        email = "admin@lpmt.com";
         password = "julio";
+
+        // email = "user39595@gmail.com";
+        // password = "julio";
 
         String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
         ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
