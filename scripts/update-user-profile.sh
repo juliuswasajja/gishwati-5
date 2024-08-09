@@ -2,19 +2,16 @@
 
 USER_FILE="../data-store/user-store.txt"
 
-# Function to update user information
 update_user() {
     local email="$1"
     local field_name="$2"
     local new_value="$3"
 
-    # Check if user exists
     if ! grep -q "$email" "$USER_FILE"; then
         echo "User not found."
         return
     fi
 
-    # Determine the field index based on the field name
     case $field_name in
         "Email") field_index=1 ;;
         "Password") field_index=2 ;;
@@ -32,7 +29,6 @@ update_user() {
         *) echo "Invalid field name."; return ;;
     esac
 
-    # Update user information
     awk -v email="$email" -v field="$field_index" -v new_value="$new_value" -F"," 'BEGIN {OFS=","} {
         if ($1 == email) {
             $field = new_value
@@ -43,5 +39,4 @@ update_user() {
     echo "$field_name updated successfully."
 }
 
-# Execute the function
 update_user "$1" "$2" "$3"
