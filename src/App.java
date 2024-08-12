@@ -23,7 +23,7 @@ public class App {
                 if ( (user.setRole(userData)).equals("patient") ) {
                     Patient patient = new Patient();
                     patient.healthData  = userData;
-                    patient.calculateLifeSpan(userData);
+                    // patient.calculateLifeSpan(userData);
                     patient.selectOption(patient.menu());
                 } else if ( (user.setRole(userData)).equals("admin")) {
                     Admin admin = new Admin();

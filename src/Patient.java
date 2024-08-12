@@ -47,6 +47,7 @@ public class Patient extends User {
                     System.out.println("9. ART Start Date: " + artStartDate);
                 }
             }
+            System.out.println("10. Life Span: " + calculateLifeSpan(healthData));
         } else {
             System.out.println("Invalid user data.");
         }
@@ -240,16 +241,15 @@ public class Patient extends User {
             int exitCode = process.waitFor();
             if (exitCode == 0) {
                 System.out.println("Output: " + output);
-                System.out.println("User information updated successfully.");
+                System.out.println("User information added successfully.");
+                // viewData(healthData);
             } else {
                 System.err.println("Error Output: " + errorOutput);
-                System.err.println("User information update failed.");
+                System.err.println("User information registration failed.");
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-        // calculate the life expectancy
 
     }
 
@@ -365,6 +365,10 @@ public class Patient extends User {
 
                 updateProfile(email, fieldName, newValue);
 
+                System.out.println("this is after the update");
+                //this is returning old data, why???
+                viewData(healthData);
+
             }
             break;
 
@@ -381,7 +385,7 @@ public class Patient extends User {
 
     }
         private static final String SCRIPT_PATH = "../scripts/update-user-profile.sh"; // Ensure the correct path
-        private static void updateProfile (String email, String fieldName, String newValue) {
+        private void updateProfile (String email, String fieldName, String newValue) {
             try {
                 ProcessBuilder processBuilder = new ProcessBuilder(
                         "/bin/bash",
@@ -412,7 +416,7 @@ public class Patient extends User {
             }
         }
 
-            // Method to process a single line of data and calculate life span
+    // Method to process a single line of data and calculate life span
     public int calculateLifeSpan(String healthData) {
         String[] fields = healthData.split(",");
 
@@ -443,7 +447,7 @@ public class Patient extends User {
             if (yearsDelayed >= 5) {
                 lifeSpan = 5;
             }
-            System.out.println("This is the life span" + lifeSpan);
+            // System.out.println("This is the life span" + lifeSpan);
             return (int) lifeSpan;
         
     }
