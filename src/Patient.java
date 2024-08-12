@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Patient extends User {
 
-    public String data;
+    public String healthData;
     private String email;
 
     public String uuid;
@@ -19,9 +19,9 @@ public class Patient extends User {
     public String artStatus = "0";
     public String artStartDate;
 
-    public void viewData(String data) {
+    public void viewData(String healthData) {
 
-        String[] fields = data.split(",");
+        String[] fields = healthData.split(",");
 
         if (fields.length >= 5) { // Ensure that there are enough fields
             email = fields[0];
@@ -306,14 +306,15 @@ public class Patient extends User {
                 System.out.println("-------------------------------------------------------");
                 System.out.println("Here is your Health Data");
                 System.out.println("-------------------------------------------------------");
-                viewData(data);
+                viewData(healthData);
+                calculateLifeSpan(healthData);
                 System.out.println("-------------------------------------------------------");
             }
             break;
 
             case 2: {
                 System.out.println("Here is your profile");
-                viewData(data);
+                viewData(healthData);
 
 
                 System.out.println("Select the field you want to update: ");
@@ -327,7 +328,6 @@ public class Patient extends User {
                     case 1:
                         fieldName = "Email";
                         break;
-//                    case 2: fieldName = "Password"; break;
                     case 2:
                         fieldName = "First Name";
                         break;
@@ -411,6 +411,42 @@ public class Patient extends User {
                 e.printStackTrace();
             }
         }
+
+            // Method to process a single line of data and calculate life span
+    public int calculateLifeSpan(String healthData) {
+        String[] fields = healthData.split(",");
+
+            String diagnosisDate = fields[9];
+            String artStartDate = fields[11];
+            String country = fields[7];
+            String dateOfBirth = fields[6];
+
+            int yearOfDiagnosis = Integer.parseInt((diagnosisDate.split("-")[2]).trim());
+            int yearTreatmentStarted = Integer.parseInt((artStartDate.split("-")[2]).trim());
+            int yearOfBirth = Integer.parseInt((dateOfBirth.split("-")[2]).trim());
+
+            
+            // Get life expectancy from the CSV data
+            // HealthDataCompiler compiler = new HealthDataCompiler();
+
+            // String lifeExpectancyStr = compiler.getLifeExpectancy(country);
+            // double lifeExpectancy = Double.parseDouble(lifeExpectancyStr);
+
+            double lifeExpectancy = 63.2;
+
+            // patientAge
+            int patientsAge = 2024 - yearOfBirth;
+
+            int yearsDelayed = yearTreatmentStarted - yearOfDiagnosis;
+            double lifeSpan = Math.round((lifeExpectancy - patientsAge) * Math.pow(0.9, yearsDelayed + 1));
+
+            if (yearsDelayed >= 5) {
+                lifeSpan = 5;
+            }
+            System.out.println("This is the life span" + lifeSpan);
+            return (int) lifeSpan;
+        
+    }
 
     }
 
