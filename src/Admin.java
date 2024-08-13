@@ -29,13 +29,15 @@ public class Admin  extends User {
             System.out.println("1. Admin Initiate Patient Registration");
             System.out.println("2. Generate Analytics");
             System.out.println("3. Export Data Analytics");
+            System.out.println("4. Log out and Exit");
             System.out.println("-------------------------------------------------------");
             System.out.println("                                                       ");
-            System.out.println("Enter option 1 - 3");
+            System.out.println("Enter option 1 - 4");
             System.out.println("                                                       ");
 
             Scanner scanner = new Scanner(System.in);
             String userSelection = scanner.next();
+            System.out.println("\033\143");
 
             try {
                 selectedOption = Integer.parseInt(userSelection);
@@ -45,7 +47,8 @@ public class Admin  extends User {
 
             if (selectedOption == 1 ||
                     selectedOption == 2 ||
-                    selectedOption == 3) {
+                    selectedOption == 3 ||
+                    selectedOption == 4) {
                 validSelection = true;
             } else {
                 System.out.println("                                                       ");
@@ -78,6 +81,17 @@ public class Admin  extends User {
             }
                 break;
 
+            case 4: {
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("----------Thank You For Using LPMT---------------------");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("                                                       ");
+
+                System.exit(0);
+            }
+                break;
+
             default: {
 
                 System.out.println("                                                       ");
@@ -96,7 +110,6 @@ public class Admin  extends User {
         System.out.println("                                                       ");
         System.out.println("Initiating Patient Registration");
         System.out.println("                                                       ");
-        System.out.println(email);
         
         while ( email == null) {
 
@@ -106,6 +119,7 @@ public class Admin  extends User {
 
             Scanner scanner = new Scanner(System.in);
             email = scanner.next();
+            System.out.println("\033\143");
 
             if (email == null){
                 System.out.println("Please provide a user email");
@@ -137,6 +151,7 @@ public class Admin  extends User {
                 System.out.println("                   "+ output +"                          ");
                 System.out.println("-------------------------------------------------------");
                 System.out.println("                                                       ");
+                navigationOptions();
 
             } else {
                 System.out.println("                                                       ");
@@ -144,6 +159,8 @@ public class Admin  extends User {
                 System.err.println("Error: Script execution failed.");
                 System.out.println("-------------------------------------------------------");
                 System.out.println("                                                       ");
+                navigationOptions();
+
 
             }
         } catch (IOException | InterruptedException e) {
@@ -181,6 +198,7 @@ public class Admin  extends User {
             Files.copy(Paths.get(csvFilePath), Paths.get(downloadPath), StandardCopyOption.REPLACE_EXISTING);
 
             System.out.println("CSV file is ready for download: " + downloadPath);
+            navigationOptions();
 
         } catch (IOException e) {
             System.err.println("Error occurred while exporting data to CSV: " + e.getMessage());
@@ -192,6 +210,65 @@ public class Admin  extends User {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void navigationOptions () {
+        
+        boolean navMenuSelection = false;
+
+                while (!navMenuSelection) {
+
+                System.out.println("                                                       ");
+                System.out.println("Select next action");
+                System.out.println("                                                       ");
+                System.out.println("00. Return to the Admin Main Menu" +
+                        "\n" + "1. Exit the application ");
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("Enter your selection");
+                System.out.println("                                                       ");
+
+                Scanner scanner = new Scanner(System.in);
+                String userNavSelection = scanner.next();
+
+                System.out.println("\033\143");
+
+
+                int selectedNavOption;
+                // System.out.println("\033\143");
+                try {
+                    selectedNavOption = Integer.parseInt(userNavSelection);
+                } catch (NumberFormatException e) {
+                    selectedNavOption = 0;
+                }
+    
+                if (selectedNavOption == 00 ||
+                selectedNavOption == 1 ) {
+    
+                    navMenuSelection = true;
+
+                    if (selectedNavOption == 00) { 
+                        selectOption(menu());
+                    }
+                    else if (selectedNavOption == 1) {
+
+                        System.out.println("                                                       ");
+                        System.out.println("-------------------------------------------------------");
+                        System.out.println("----------Thank You For Using LPMT---------------------");
+                        System.out.println("-------------------------------------------------------");
+                        System.out.println("                                                       ");
+
+                        System.exit(0);
+                    }
+    
+                } else {
+                    System.out.println("                                                       ");
+                    System.out.println("-------------------------------------------------------");
+                    System.out.println("Wrong selection, please select again");
+                    System.out.println("-------------------------------------------------------");
+    
+                }
+            }
     }
 
 }

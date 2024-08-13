@@ -34,6 +34,7 @@ public class Menu {
 
             Scanner scanner = new Scanner(System.in);
             String userSelection = scanner.next();
+            System.out.println("\033\143");
 
             try {
                 selectedOption = Integer.parseInt(userSelection);

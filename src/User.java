@@ -1,6 +1,7 @@
 // package src;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -14,16 +15,19 @@ public class User {
 
         System.out.println("Enter your email Address");
         Scanner scanner  = new Scanner( System.in );
+        Console console = System.console();
 
         String email = scanner.next();
 
         System.out.println("Enter your password");
-        
-        String password = scanner.next();
 
-        email = "joy@gmail.com";
-        // email = "admin@lpmt.com";
-        password = "joy";
+        char [] charpass = console.readPassword();
+        String password = String.valueOf(charpass);
+
+        // email = "joy@gmail.com";
+        // password = "joy";
+        email = "admin@lpmt.com";
+        password = "julio";
 
         String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
         ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
@@ -39,9 +43,11 @@ public class User {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
+                System.out.println("\033\143");
                 System.out.println("Authentication successful.");
                 return userData = output.toString();
             } else {
+                System.out.println("\033\143");
                 System.err.println("Authentication failed.");
                 System.out.println(userData = output.toString());
                 return null;

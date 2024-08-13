@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,6 +35,9 @@ public class Patient extends User {
             artStatus = fields[10];
             artStartDate = fields[11];
 
+            
+            
+
             System.out.println("1. Email: " + email);
             System.out.println("2. First Name: " + firstName);
             System.out.println("3. Last Name: " + lastName);
@@ -48,6 +52,7 @@ public class Patient extends User {
                 }
             }
             System.out.println("10. Life Span: " + calculateLifeSpan(healthData));
+            navigationOptions();
         } else {
             System.out.println("Invalid user data.");
         }
@@ -111,18 +116,23 @@ public class Patient extends User {
             System.out.println("Enter your password");
             System.out.println("----------------------------");
 
-            Scanner scanner = new Scanner(System.in);
-            submittedPassword = scanner.next();
+            Console console = System.console();
+            char [] charpass = console.readPassword();
+            submittedPassword = String.valueOf(charpass);
+        
 
             System.out.println("Re - enter your password");
             System.out.println("----------------------------");
 
-            reSubmittedPassword = scanner.next();
+            char [] charpass2 = console.readPassword();
+            reSubmittedPassword = String.valueOf(charpass2);
 
             if (submittedPassword.equals(reSubmittedPassword)) {
+                System.out.println("\033\143");
                 System.out.println("Passwords match");
 
             } else {
+                System.out.println("\033\143");
                 System.out.println("Password does not match, please try again");
             }
 
@@ -159,6 +169,7 @@ public class Patient extends User {
         System.out.println("----------------------------");
 
         Scanner scanner = new Scanner(System.in);
+
         firstName = scanner.next();
 
         System.out.println("Enter your Last Name");
@@ -270,9 +281,10 @@ public class Patient extends User {
             System.out.println("-------------------------------------------------------");
             System.out.println("1. View Profile");
             System.out.println("2. Update Profile");
+            System.out.println("3. Log out and exit application");
             System.out.println("-------------------------------------------------------");
             System.out.println("                                                       ");
-            System.out.println("Enter option 1 - 2");
+            System.out.println("Enter option 1 - 3");
             System.out.println("                                                       ");
 
             Scanner scanner = new Scanner(System.in);
@@ -285,7 +297,7 @@ public class Patient extends User {
             }
 
             if (selectedOption == 1 ||
-                    selectedOption == 2) {
+                    selectedOption == 2 || selectedOption == 3) {
                 validSelection = true;
             } else {
                 System.out.println("                                                       ");
@@ -303,17 +315,19 @@ public class Patient extends User {
         Scanner scanner = new Scanner(System.in);
         switch (selectedOption) {
             case 1: {
+                System.out.println("\033\143");
                 System.out.println("-------------------------------------------------------");
                 System.out.println("Here is your Health Data");
                 System.out.println("-------------------------------------------------------");
-                viewData(healthData);
                 calculateLifeSpan(healthData);
+                viewData(healthData);
                 System.out.println("-------------------------------------------------------");
             }
             break;
 
             case 2: {
-                System.out.println("Here is your profile");
+                System.out.println("\033\143");
+                System.out.println("Here is your cuurent profile");
                 viewData(healthData);
 
 
@@ -321,6 +335,7 @@ public class Patient extends User {
 
                 int field = scanner.nextInt();
                 scanner.nextLine(); // consume the newline
+                // System.out.println("\033\143");
                 System.out.println("Field number selected: " + field);
 
                 String fieldName = "";
@@ -369,6 +384,17 @@ public class Patient extends User {
                 //this is returning old data, why???
                 viewData(healthData);
 
+            }
+            break;
+
+            case 3: {
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("----------Thank You For Using LPMT---------------------");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("                                                       ");
+
+                System.exit(0);
             }
             break;
 
@@ -450,6 +476,65 @@ public class Patient extends User {
             // System.out.println("This is the life span" + lifeSpan);
             return (int) lifeSpan;
         
+    }
+
+    public void navigationOptions () {
+        
+        boolean navMenuSelection = false;
+
+                while (!navMenuSelection) {
+
+                System.out.println("                                                       ");
+                System.out.println("Select next action");
+                System.out.println("                                                       ");
+                System.out.println("00. Return to the Patient Main Menu" +
+                        "\n" + "1. Exit the application ");
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("Enter your selection");
+                System.out.println("                                                       ");
+
+                Scanner scanner = new Scanner(System.in);
+                String userNavSelection = scanner.next();
+
+                System.out.println("\033\143");
+
+
+                int selectedNavOption;
+                // System.out.println("\033\143");
+                try {
+                    selectedNavOption = Integer.parseInt(userNavSelection);
+                } catch (NumberFormatException e) {
+                    selectedNavOption = 0;
+                }
+    
+                if (selectedNavOption == 00 ||
+                selectedNavOption == 1 ) {
+    
+                    navMenuSelection = true;
+
+                    if (selectedNavOption == 00) { 
+                        selectOption(menu());
+                    }
+                    else if (selectedNavOption == 1) {
+
+                        System.out.println("                                                       ");
+                        System.out.println("-------------------------------------------------------");
+                        System.out.println("----------Thank You For Using LPMT---------------------");
+                        System.out.println("-------------------------------------------------------");
+                        System.out.println("                                                       ");
+
+                        System.exit(0);
+                    }
+    
+                } else {
+                    System.out.println("                                                       ");
+                    System.out.println("-------------------------------------------------------");
+                    System.out.println("Wrong selection, please select again");
+                    System.out.println("-------------------------------------------------------");
+    
+                }
+            }
     }
 
     }
