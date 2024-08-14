@@ -11,7 +11,7 @@ encrypted_password=$(openssl passwd -salt 24uuid ${password})
 user_data=$(grep "^${email},${encrypted_password}," "$USER_STORE_PATH")
 
 if [ -z "$user_data" ]; then
-    echo "Authentication failed - from bash"
+    echo "Authentication failed"
 
     exit 1
 else

@@ -38,20 +38,25 @@ public class Patient extends User {
             
             
 
-            System.out.println("1. Email: " + email);
-            System.out.println("2. First Name: " + firstName);
-            System.out.println("3. Last Name: " + lastName);
-            System.out.println("4. Date of Birth: " + dateOfBirth);
-            System.out.println("5. Country: " + country);
-            System.out.println("6. HIV Status: " + hivStatus);
-            if (hivStatus.equals("P")) {
-                System.out.println("7. Diagnosis Date: " + diagnosisDate);
-                System.out.println("8. ART Status: " + artStatus);
-                if (artStatus.equals("Y")) {
-                    System.out.println("9. ART Start Date: " + artStartDate);
+            System.out.println("#  Email          :" + email);
+            System.out.println("#  First Name     :" + firstName);
+            System.out.println("#  Last Name      :" + lastName);
+            System.out.println("#  Date of Birth  :" + dateOfBirth);
+            System.out.println("#  Country        :" + country);
+            
+            if (hivStatus.equals("1")) {
+                System.out.println("#  HIV Status     :Positive");
+            System.out.println("#  Diagnosis Date :" + diagnosisDate);
+                if (artStatus.equals("1")) {
+                    System.out.println("#  ART Status     :Yes");
+            System.out.println("#  ART Start Date :" + artStartDate);
+                }else {
+                    System.out.println("#  ART Status     : No");
                 }
+            }else {
+                System.out.println("#  HIV Status     : Negative");
             }
-            System.out.println("10. Life Span: " + calculateLifeSpan(healthData));
+            System.out.println("# Life Expectancy: " + calculateLifeSpan(healthData));
             navigationOptions();
         } else {
             System.out.println("Invalid user data.");
@@ -165,66 +170,84 @@ public class Patient extends User {
 
     public void healthDataRegistration(String uuid) {
 
-        System.out.println("Enter your First Name");
+        
         System.out.println("----------------------------");
+        System.out.println("What is your First Name");
 
         Scanner scanner = new Scanner(System.in);
 
         firstName = scanner.next();
 
-        System.out.println("Enter your Last Name");
+        
         System.out.println("----------------------------");
+        System.out.println("What is your Last Name");
 
         lastName = scanner.next();
 
-        System.out.println("Enter your Date of Birth");
         System.out.println("----------------------------");
+        System.out.println("What is your Date of Birth");
+        System.out.println("                            ");
+        System.out.println("Should follow the formatt DD-MM-YYYY");
 
         dateOfBirth = scanner.next();
 
-        System.out.println("Enter your Country");
         System.out.println("----------------------------");
+        System.out.println("Which country do you reside in?");
 
         country = scanner.next();
 
-        while (!(hivStatus.equals("P"))  && !(hivStatus.equals("N"))) {
+        while (!(hivStatus.equals("1"))  && !(hivStatus.equals("2"))) {
 
-            System.out.println("Enter your HIV Status");
             System.out.println("----------------------------");
+            System.out.println("What is your HIV Status");
+            System.out.println("                            ");
+            System.out.println("If Positive, type 1\nIf Negative, type 2");
+            System.out.println("                            ");
 
-            System.out.println("If Positive, type P\nIf Negative, type N");
             hivStatus = scanner.next();
 
         }
 
-        if (hivStatus.equals("P")) {
+        if (hivStatus.equals("1")) {
 
-            System.out.println("Enter your HIV Diagnosis Date");
+            hivStatus = "Positive";
+            System.out.println("art here" + hivStatus);
             System.out.println("----------------------------");
+            System.out.println("What date did you contract HIV/AIDs?");
+            System.out.println("                            ");
+            System.out.println("Should follow the formatt DD-MM-YYYY");
+            System.out.println("                            ");
 
             diagnosisDate = scanner.next();
 
-            while (!(artStatus.equals("Y"))) {
+            while (!(artStatus.equals("1")) && !(artStatus.equals("2"))) {
 
-                System.out.println("Enter your ART Status");
                 System.out.println("----------------------------");
-
-                System.out.println("If Yes, type Y\nIf No, type N");
-
+                System.out.println("Are you on Antiretrovial Therapy (ARVs)?");
+                System.out.println("                            ");
+                System.out.println("If Yes, type 1\nIf No, type 2");
 
                 artStatus = scanner.next();
 
             }
 
-            if (artStatus.equals("Y")) {
+            if (artStatus.equals("1")) {
 
-                System.out.println("Enter your ART start Date");
+                artStatus = "Yes";
                 System.out.println("----------------------------");
+                System.out.println("When did you start Antiretrovial Therapy (ARVs)?");
+                System.out.println("                            ");
 
+                System.out.println("Should follow the formatt DD-MM-YYYY");
+                System.out.println("                            ");
                 artStartDate = scanner.next();
 
+            }else {
+                artStatus = "No";
             }
 
+        } else {
+            hivStatus = "Negative";
         }
 
         String[] completeRegistrationCmd = {
@@ -251,9 +274,13 @@ public class Patient extends User {
 
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                System.out.println("Output: " + output);
-                System.out.println("User information added successfully.");
-                // viewData(healthData);
+                System.out.println("\033\143");
+                System.out.println("Registration complete, you have been added to the system successfully.");
+                System.out.println("Redirecting you to main maenu...");
+                Menu menu = new Menu();
+                menu.welcome();
+                App.selectOperation(menu.main());
+
             } else {
                 System.err.println("Error Output: " + errorOutput);
                 System.err.println("User information registration failed.");
@@ -457,9 +484,11 @@ public class Patient extends User {
 
             
             // Get life expectancy from the CSV data
-            // HealthDataCompiler compiler = new HealthDataCompiler();
+            HealthDataCompiler compiler = new HealthDataCompiler();
 
-            // String lifeExpectancyStr = compiler.getLifeExpectancy(country);
+            String lifeExpectancyStr = compiler.getLifeExpectancy(country);
+
+            // System.out.println(country);
             // double lifeExpectancy = Double.parseDouble(lifeExpectancyStr);
 
             double lifeExpectancy = 63.2;

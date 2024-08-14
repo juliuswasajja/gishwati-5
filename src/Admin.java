@@ -71,12 +71,12 @@ public class Admin  extends User {
                 break;
 
             case 2: {
-                System.out.println("Generate Analtics feature is coming soon");
+                generateAnalytics();
             }
                 break;
 
             case 3: {
-                System.out.println("Export Data feature is coming soon");
+                System.out.println("Exporting patient data...");
                 exportUserData ("../data-store/user-store.txt","../data-store/exported_user_data.csv");
             }
                 break;
@@ -209,7 +209,53 @@ public class Admin  extends User {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }   
+
+    }
+
+    public void generateAnalytics() {
+
+        System.out.println("                                                       ");
+        System.out.println("Generating Patient Analytics");
+        System.out.println("                                                       ");
+
+        String generateAnalyticsCmd[] = { "/bin/bash","../scripts/generate-statistics.sh" };
+
+        ProcessBuilder generateAnalyticsProcess = new ProcessBuilder(generateAnalyticsCmd);
+
+        try {
+            Process process = generateAnalyticsProcess.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
+            int exitCode = process.waitFor();
+
+            if (exitCode == 0) {
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("Statistics have been generated to ../data-store/statistics.csv, respectively.");
+                System.out.println("-------------------------------------------------------");
+                navigationOptions();
+
+            } else {
+                System.out.println("                                                       ");
+                System.out.println("-------------------------------------------------------");
+                System.err.println("Error: Script execution failed.");
+                System.out.println("-------------------------------------------------------");
+                System.out.println("                                                       ");
+                navigationOptions();
+
+
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
+
     }
 
     public void navigationOptions () {

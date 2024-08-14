@@ -26,8 +26,8 @@ public class User {
 
         // email = "joy@gmail.com";
         // password = "joy";
-        email = "admin@lpmt.com";
-        password = "julio";
+        // email = "admin@lpmt.com";
+        // password = "julio";
 
         String[] authenticateCmd = {"/bin/bash", "../scripts/authenticate-user.sh", email, password};
         ProcessBuilder authenticateUser = new ProcessBuilder(authenticateCmd);
@@ -49,7 +49,10 @@ public class User {
             } else {
                 System.out.println("\033\143");
                 System.err.println("Authentication failed.");
-                System.out.println(userData = output.toString());
+                Menu menu = new Menu();
+                menu.welcome();
+                App.selectOperation(menu.main());
+                
                 return null;
             }
         } catch (IOException | InterruptedException e) {
