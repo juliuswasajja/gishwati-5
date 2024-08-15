@@ -2,6 +2,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Patient extends User {
@@ -51,6 +55,82 @@ public class Patient extends User {
         }
 
     }
+
+    
+
+
+    public int calculateLifeSpan() {
+        int lifeExpectancy = -1;
+        String[] getCountryCmd = {"C:/Program Files/Git/bin/bash.exe", "C:\\Users\\STUDENT\\Desktop\\gishwati-5\\scripts\\get_country.sh", this.country};
+
+        ProcessBuilder pb = new ProcessBuilder(getCountryCmd);
+
+        try {
+
+            Process process = pb.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            
+
+            String line;
+            line = reader.readLine();
+
+            int exitCode = process.waitFor();
+
+           
+
+            if (exitCode == 0) {
+                String[] details = line.split(",", -1);
+                int avgLifeSpan = (int) Math.round(Double.parseDouble(details[6]));
+                LocalDate now = LocalDate.now();
+                LocalDate dob = stringToDate(this.dateOfBirth);
+                int age = now.getYear() - dob.getYear();
+
+                int remaingingYears = avgLifeSpan - age;
+
+                if (this.hivStatus.equals("Y")) {
+                    if (this.artStatus.equals("Y")) {
+                        LocalDate dg = stringToDate(this.diagnosisDate);
+                        LocalDate as = stringToDate(this.artStartDate);
+                        int delayYears = as.getYear() - dg.getYear();
+                        double ls = remaingingYears * (Math.pow(0.9, delayYears+1));
+                        return (int) ls;
+                    } else {
+                        if (remaingingYears < 5) {
+                            return remaingingYears;
+                        } else {
+                            return 5;
+                        } 
+                    }
+                } else {
+                    return remaingingYears;
+                }
+
+
+            }
+
+            else {
+                System.err.println("Error: Script execution failed.");
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return lifeExpectancy;
+
+    }
+
+    private LocalDate stringToDate(String s) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            LocalDate date = LocalDate.parse(s, formatter);
+            return date;
+        } catch (DateTimeException e) {
+            return null;
+        }
+    }
+    
 
     public void completeRegistration() {
 
