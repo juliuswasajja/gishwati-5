@@ -43,11 +43,10 @@ public class Patient extends User {
             System.out.println("#  Last Name      :" + lastName);
             System.out.println("#  Date of Birth  :" + dateOfBirth);
             System.out.println("#  Country        :" + country);
-            
-            if (hivStatus.equals("1")) {
+            if (hivStatus.equals("Positive")) {
                 System.out.println("#  HIV Status     :Positive");
             System.out.println("#  Diagnosis Date :" + diagnosisDate);
-                if (artStatus.equals("1")) {
+                if (artStatus.equals("Yes")) {
                     System.out.println("#  ART Status     :Yes");
             System.out.println("#  ART Start Date :" + artStartDate);
                 }else {
@@ -211,7 +210,6 @@ public class Patient extends User {
         if (hivStatus.equals("1")) {
 
             hivStatus = "Positive";
-            System.out.println("art here" + hivStatus);
             System.out.println("----------------------------");
             System.out.println("What date did you contract HIV/AIDs?");
             System.out.println("                            ");
@@ -354,15 +352,35 @@ public class Patient extends User {
 
             case 2: {
                 System.out.println("\033\143");
-                System.out.println("Here is your cuurent profile");
-                viewData(healthData);
+                System.out.println("Here is your curent profile");
+
+                System.out.println("1.  Email          :" + email);
+            System.out.println("2.  First Name     :" + firstName);
+            System.out.println("3.  Last Name      :" + lastName);
+            System.out.println("4.  Date of Birth  :" + dateOfBirth);
+            System.out.println("5.  Country        :" + country);
+            if (hivStatus.equals("Positive")) {
+                System.out.println("6.  HIV Status     :Positive");
+            System.out.println("7.  Diagnosis Date :" + diagnosisDate);
+                if (artStatus.equals("Yes")) {
+                    System.out.println("8.  ART Status     :Yes");
+            System.out.println("9  ART Start Date :" + artStartDate);
+                }else {
+                    System.out.println("8  ART Status     : No");
+                }
+            }else {
+                System.out.println("6  HIV Status     : Negative");
+            }
+            System.out.println("10 Life Expectancy: " + calculateLifeSpan(healthData));
+                // viewData(healthData);
+
+                
 
 
                 System.out.println("Select the field you want to update: ");
 
                 int field = scanner.nextInt();
                 scanner.nextLine(); // consume the newline
-                // System.out.println("\033\143");
                 System.out.println("Field number selected: " + field);
 
                 String fieldName = "";
@@ -407,9 +425,8 @@ public class Patient extends User {
 
                 updateProfile(email, fieldName, newValue);
 
-                System.out.println("this is after the update");
+                navigationOptions();
                 //this is returning old data, why???
-                viewData(healthData);
 
             }
             break;
@@ -497,12 +514,11 @@ public class Patient extends User {
             int patientsAge = 2024 - yearOfBirth;
 
             int yearsDelayed = yearTreatmentStarted - yearOfDiagnosis;
-            double lifeSpan = Math.round((lifeExpectancy - patientsAge) * Math.pow(0.9, yearsDelayed + 1));
+            double lifeSpan = patientsAge + Math.round((lifeExpectancy - patientsAge) * Math.pow(0.9, yearsDelayed + 1));
 
             if (yearsDelayed >= 5) {
-                lifeSpan = 5;
+                lifeSpan = 5+patientsAge;
             }
-            // System.out.println("This is the life span" + lifeSpan);
             return (int) lifeSpan;
         
     }

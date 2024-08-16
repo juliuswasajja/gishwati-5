@@ -510,3 +510,7 @@ alice44@gmail.com,$1$24uuid$5f4dcc3b5aa765d61d8327deb882cf99,patient,11A3D073-90
 alice21@gmail.com,$1$24uuid$5f4dcc3b5aa765d61d8327deb882cf99,patient,1E15F9D5-5035-4CF5-86C4-A8ED94ABC8A8,Joy,Smith,02-12-1988,RWA,N,28-09-2018,N,27-06-2003,40
 
 jude@gmail.com,$1$24uuid$rnDgDhTxFFkU3rKcavinw0,patient,ECE91A6C-27BB-43BD-8E22-932CD5FFFABC,Jude,Wasa,20-02-2023,Uganda,1,03-03-2003,1,08-02-2023
+brian@andrew.cmu.edu,,patient,3BA90D62-28AF-4D7B-AC1A-6AE93E8858E9
+john@yahoo.com,$1$24uuid$a2IlVtMg9bNWMNSXypDX.0,patient,80767FD0-0BC6-4D9C-9803-A92218E62787,Jonh,siza,03-03-1993,Uganda,Positive,04-04-2004,Yes,05-05-2022
+dad@gmail.com,$1$24uuid$uVuyjcMLfIwGQKCDuloF41,patient,A2BDF465-D800-4961-8979-1608F419D077,FEd,mum,02-02-1992,Uganda,Positive,03-03-2003,Yes,04-04-2022
+mose@gmail.com,$1$24uuid$9iwCUqqRbPT9I8ajDwfyC.,patient,E245FB4C-0238-4E9E-93A9-A3BFC91A2900,Kutu,Kimu,02-02-1982,Uganda,Positive,04-05-2000,Yes,05-06-2004
